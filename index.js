@@ -31,6 +31,21 @@ app.get('/niti/:id', async (req, res) => {
  console.log(v)
   res.send(`Received ID: ${id}`); // Send a response
 });
+app.patch('/users/:id', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id, 
+      req.body, // Pass the entire update object
+      { new: true, runValidators: true } // Return updated doc & validate fields
+    );
+
+    if (!updatedUser) return res.status(404).send('User not found.');
+
+    res.send(updatedUser);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
 
 
 mongoose.connect(uri)
