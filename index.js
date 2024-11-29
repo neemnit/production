@@ -21,9 +21,18 @@ app.get('/user',async(req,res)=>{
 })
 app.get('/niti',async(req,res)=>{
   const k= await User.find({})
-  console.log(k)
+
    res.json(k)
 })
+app.get('/niti/:id', async (req, res) => {
+  const id = req.params.id; // Access the route parameter _id
+  console.log(id); // Log the ID
+ const v=await User.findOneAndDelete({_id:id})
+ console.log(v)
+  res.send(`Received ID: ${id}`); // Send a response
+});
+
+
 mongoose.connect(uri)
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.error("MongoDB connection error:", err));
